@@ -1,0 +1,6 @@
+<div class="location-form">
+  <%= form_tag locations_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= button_tag 'Download from CSV', class: 'btn btn-primary center-block' %>
+  <% end %>
+</div>

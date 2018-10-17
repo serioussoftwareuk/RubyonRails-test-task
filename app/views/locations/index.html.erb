@@ -1,0 +1,19 @@
+<h1 class='text-center'>
+  Import locations from CSV file.
+</h1>
+
+<div class="row">
+  <div class="col">
+    <%= render 'form' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <ul>
+      <% @locations.each do |location| %>
+        <li><%= link_to 'Show', location %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
