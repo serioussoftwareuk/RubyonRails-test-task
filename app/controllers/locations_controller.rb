@@ -1,5 +1,4 @@
 class LocationsController < ApplicationController
-
   def index
     @locations = Location.all
   end
@@ -9,23 +8,12 @@ class LocationsController < ApplicationController
   end
 
   def create
-    @location = Location.new(location_params)
+    result = LocationsImport.call(file: params[:file])
 
-    respond_to do |format|
-      if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
-        format.json { render :show, status: :created, location: @location }
-      else
-        format.html { render :new }
-        format.json { render json: @location.errors, status: :unprocessable_entity }
-      end
+    if result.success?
+      redirect_to :root, notice: 'Success!!'
+    else
+      redirect_to :root, alert: result.error
     end
-  end
-
-  private
-
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def location_params
-    params.fetch(:location, {})
   end
 end
