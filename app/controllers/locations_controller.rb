@@ -11,7 +11,7 @@ class LocationsController < ApplicationController
     result = LocationsImport.call(file: params[:file])
 
     if result.success?
-      redirect_to :root, notice: 'Success!!'
+      redirect_to :root, notice: 'Success!'
     else
       redirect_to :root, alert: result.error
     end

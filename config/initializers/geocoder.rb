@@ -19,4 +19,16 @@ Geocoder.configure(
   # Calculation options
   # units: :mi,                 # :km for kilometers or :mi for miles
   # distances: :linear          # :spherical or :linear
+
+
+  # You can configure multiple geocoding services
+
+  # baidu: {
+  #   api_key: "..."
+  # },
+
+  # maxmind: {
+  #   api_key: "...",
+  #   service: :omni
+  # }
 )

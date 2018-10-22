@@ -1,1 +1,17 @@
-<p><%= @location.inspect %></p>
+<div class="container show-page-container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="panel panel-primary ">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span class="glyphicon glyphicon-map-marker"></span>
+            <%= @location.address %>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <%= google_map(@location) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
