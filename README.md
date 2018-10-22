@@ -2,8 +2,10 @@
 
 ## Afterthought
 
-1. We can use full list of all street_services here `# Geocoder::Lookup.street_services - [:test]` for example [Loookup services list](../master/app/models/location.rb#L2)
- But they must be properly configured [Geocoder Loookup Services Config](../master/config/initializers/geocoder.rb#L24)
+1. We should use full list of all street_services here - [Loookup services list](../master/app/models/location.rb#L2)
+This list is only for blueprinting the concept actually.
+What we should use as a street_services list - `# Geocoder::Lookup.street_services - [:test]`
+But they must be properly configured [Geocoder Loookup Services Config](../master/config/initializers/geocoder.rb#L24)
 
 2. Also we can set the order of street_services [Loookup services list](../master/app/models/location.rb#L4)
 for example
