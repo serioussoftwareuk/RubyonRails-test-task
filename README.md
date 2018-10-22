@@ -1,24 +1,134 @@
-# README
+# Travelbook test task
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Afterthought
 
-Things you may want to cover:
+1. We can use full list of all street_services here `# Geocoder::Lookup.street_services - [:test]` for example [Loookup services list](../blob/master/app/models/location.rb#L2)
+ But they must be properly configured [Loookup services list](../blob/master/config/initializers/geocoder.rb#L24)
 
-* Ruby version
+2. Also we can set the order of street_services [Loookup services list](../blob/master/app/models/location.rb#L4)
+for example
 
-* System dependencies
+```
+geocoded_by :address, lookup: lambda{ |obj| obj.geocoder_lookup }
 
-* Configuration
+def geocoder_lookup
+  if country_code == "RU"
+    :yandex
+  elsif country_code == "CN"
+    :baidu
+  else
+    self.lookup || GEOCODER_STREET_SERVICES_LIST.first
+  end
+end
+```
 
-* Database creation
+3. We can add cron task to geocode empty locations that was not be geocoded for unknown reasons (rate limiting, etc) before [Sidekiq Cron](https://github.com/ondrejbartas/sidekiq-cron)
 
-* Database initialization
+```
+class LocationGeocoderWorker
+  include Sidekiq::Worker
+  def perform(name, count)
+    Location.not_geocoded ..
+    # try to geocode
+  end
+end
 
-* How to run the test suite
+Sidekiq::Cron::Job.create(name: 'Location Geocoder Worker - every 5min', cron: '*/5 * * * *', class: 'LocationGeocoderWorker') # execute at every 5 minutes, ex: 12:05, 12:10, 12:15...etc
+# => true
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+4. There is an analog of geocoder gem - [GeoKit](https://github.com/geokit/geokit-rails)
+Seems that it is more flexible, and I spent some time to implement a needed feature but choose geocoder because of more popularity.
+But if this task is real or have a part of the travelbook project I advise to check it more closely.
 
-* Deployment instructions
+## Improvements
 
-* ...
+If I had more time, then I
+
+* Improve test base
+* Improve and specify errors system
+* Add rubocop and fix its offenses
+* Create smoother views =)
+
+## Developer Setup
+
+Install rbenv - ruby version manager
+
+https://github.com/rbenv/rbenv
+```
+brew update
+brew install rbenv
+```
+
+Install ruby
+```
+rbenv install 2.5.1
+```
+
+Verify
+```
+ruby -v
+ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-darwin17]
+```
+
+If you dont have rails 5 installed do this:
+
+```
+gem install bundler
+gem install rails --no-ri --no-rdoc
+```
+
+Install all dependencies (first time it'll take awhile)
+```
+bundle install
+```
+
+Create test db and run specs to make sure everything is configured properly
+
+```
+rails db:setup
+rails spec
+```
+
+Run interactive Rails console
+
+```
+rails c
+```
+
+Run the server
+
+```
+rails s # port 3000
+rails s -p 5000 # different port
+PORT=5000 rails s # another option
+```
+
+### Keeping it up-to-date
+
+After the initial installation all you have to do keep your Rails environment up-to-date is periodically:
+
+1. `git pull origin master` - get the latest
+2. `rails db:migrate db:test:prepare` - in case there are new migrations (`db/migrations` dir)
+3. `rails spec` - to make sure it still works
+
+### Local Redis setup
+
+Install latest version of redis with brew
+```
+brew unlink redis
+brew install redis
+```
+
+To Start/Stop redis
+
+```
+brew services restart redis
+brew
+```
+
+To Start Sideliq
+
+```
+bundle exec sidekiq
+```

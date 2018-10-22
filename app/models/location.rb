@@ -1,5 +1,4 @@
 class Location < ApplicationRecord
-  # Geocoder::Lookup.street_services - [:test]
   GEOCODER_STREET_SERVICES_LIST = %i[nominatim dstk esri]
 
   geocoded_by :address, lookup: lambda{ |obj| obj.lookup.to_sym }
