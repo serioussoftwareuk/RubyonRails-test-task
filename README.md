@@ -104,6 +104,13 @@ rails s -p 5000 # different port
 PORT=5000 rails s # another option
 ```
 
+### ENV
+
+There is one ENV variable that we must to provide to see google maps correctly.
+`ENV['GOOGLE_MAPS_KEY']`
+
+I use [DotEnv](https://github.com/bkeepers/dotenv) for this purpose
+
 ### Keeping it up-to-date
 
 After the initial installation all you have to do keep your Rails environment up-to-date is periodically:
