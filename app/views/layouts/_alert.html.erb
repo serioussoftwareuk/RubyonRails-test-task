@@ -3,7 +3,7 @@
     <% flash.each do |key, value| %>
       <div class="alert <%= alert_class_for(key) %>">
         <a href="#" data-dismiss="alert" class="close">×</a>
-        <ul>
+        <ul class="nobullets" >
           <li><%= value.html_safe %></li>
         </ul>
       </div>

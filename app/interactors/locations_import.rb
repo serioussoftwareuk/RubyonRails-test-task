@@ -14,6 +14,7 @@ class LocationsImport
   delegate :file, to: :context
 
   def validate_file
+    context.fail!(error: 'No file!') unless file
     context.fail!(error: 'CSV error!') if file.content_type != 'text/csv'
   end
 

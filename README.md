@@ -2,13 +2,13 @@
 
 ## Afterthought
 
-1. We should use full list of all street_services here - [Loookup services list](../master/app/models/location.rb#L2)
+1. We should use full list of all street_services [here](../master/app/models/location.rb#L2).
 This list is only for blueprinting the concept actually.
 What we should use as a street_services list - `# Geocoder::Lookup.street_services - [:test]`
-But they must be properly configured [Geocoder Loookup Services Config](../master/config/initializers/geocoder.rb#L24)
+But they must be properly configured [here](../master/config/initializers/geocoder.rb#L24).
 
-2. Also we can set the order of street_services [Loookup services list](../master/app/models/location.rb#L4)
-for example
+2. Also we can set the order of street_services [here](../master/app/models/location.rb#L4)
+for better results, for example
 
 ```
 geocoded_by :address, lookup: lambda{ |obj| obj.geocoder_lookup }
@@ -27,7 +27,7 @@ end
 3. We can add cron task to geocode empty locations that was not be geocoded for unknown reasons (rate limiting, etc) before [Sidekiq Cron](https://github.com/ondrejbartas/sidekiq-cron)
 
 ```
-class LocationGeocoderWorker
+class LocationGeocoderCronWorker
   include Sidekiq::Worker
   def perform(name, count)
     Location.not_geocoded ..
@@ -40,16 +40,17 @@ Sidekiq::Cron::Job.create(name: 'Location Geocoder Worker - every 5min', cron: '
 ```
 
 4. There is an analog of geocoder gem - [GeoKit](https://github.com/geokit/geokit-rails)
-Seems that it is more flexible, and I spent some time to implement a needed feature but choose geocoder because of more popularity.
+Seems that it is more flexible, and I spent some time to implement a needed feature but choose geocoder because it is more popular (so we have more examples of implementation and answers to possible issues).
 But if this task is real or have a part of the travelbook project I advise to check it more closely.
 
 ## Improvements
 
-If I had more time, then I
+If I had more time, then I'd
 
 * Improve test base
 * Improve and specify errors system
 * Add rubocop and fix its offenses
+* Add pagination on index view
 * Create smoother views =)
 
 ## Developer Setup
@@ -111,7 +112,7 @@ PORT=5000 rails s # another option
 There is one ENV variable that we must to provide to see google maps correctly.
 `ENV['GOOGLE_MAPS_KEY']`
 
-I use [DotEnv](https://github.com/bkeepers/dotenv) for this purpose
+I use [DotEnv](https://github.com/bkeepers/dotenv) for this purposes
 
 ### Keeping it up-to-date
 
@@ -133,7 +134,7 @@ To Start/Stop redis
 
 ```
 brew services restart redis
-brew
+brew services stop redis
 ```
 
 To Start Sideliq

@@ -28,11 +28,22 @@ RSpec.describe 'POST /locations', type: :request do
   end
 
   context "with invalid params" do
-    let(:file) { fixture_file_upload("#{::Rails.root}/spec/fixtures/files/image.png", 'image/png') }
+    context "wrong content type" do
+      let(:file) { fixture_file_upload("#{::Rails.root}/spec/fixtures/files/image.png", 'image/png') }
 
-    it "redirects to root path with error message" do
-      expect(flash[:alert]).to eq 'CSV error!'
-      expect(response).to redirect_to(root_path)
+      it "redirects to root path with error message" do
+        expect(flash[:alert]).to eq 'CSV error!'
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context "empty file" do
+      let(:file) { nil }
+
+      it "redirects to root path with error message" do
+        expect(flash[:alert]).to eq 'No file!'
+        expect(response).to redirect_to(root_path)
+      end
     end
   end
 end
