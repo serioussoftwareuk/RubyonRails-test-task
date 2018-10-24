@@ -39,7 +39,7 @@ Sidekiq::Cron::Job.create(name: 'Location Geocoder Worker - every 5min', cron: '
 # => true
 ```
 
-4. There is an analog of geocoder gem - [GeoKit](https://github.com/geokit/geokit-rails)
+4. There is an analog of geocoder gem - [GeoKit](https://github.com/geokit/geokit-rails).
 Seems that it is more flexible, and I spent some time to implement a needed feature but choose geocoder because it is more popular (so we have more examples of implementation and answers to possible issues).
 But if this task is real or have a part of the travelbook project I advise to check it more closely.
 
@@ -48,7 +48,7 @@ But if this task is real or have a part of the travelbook project I advise to ch
 If I had more time, then I'd
 
 * Improve test base
-* Improve and specify errors system
+* Improve and specify errors system with validation of input file BTW I use as example [this](../master/spec/fixtures/files/locations_import.csv)
 * Add rubocop and fix its offenses
 * Add pagination on index view
 * Create smoother views =)
